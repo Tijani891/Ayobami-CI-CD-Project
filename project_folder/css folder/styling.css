@@ -1,0 +1,172 @@
+body{
+    color:black;
+    background-color: rgba(127, 197, 255, 0.281);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    line-height: 1.6em;
+}
+.heading1 h1{
+    text-align: center;
+}
+
+.button{
+    background-color: black;
+    color: aliceblue;
+    padding: 10px 15px;
+    border: none;
+}
+.button:hover{
+    background-color: red;
+    color: aliceblue;
+}
+.clr{
+    clear: both;
+}
+
+.box-1{
+    background-color: black;
+    color: darkblue;
+    width:80%;
+
+    border-top: 5px red solid;
+    border-bottom: 5px red solid;
+    border-right: 5px red solid;
+    border-left: 5px red solid;
+    border-top-style: dotted;
+
+    padding: 20px;
+    margin: auto;
+}
+.box-1 h3{
+    text-align: center;
+    font-family: Tahoma;
+    font-style:italic;
+    text-decoration: underline;
+    font-size: 40px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.box-2{
+    background-color: blue;
+    color: navajowhite;
+    width: 80%;
+    border: 5px black solid;
+    padding: 20px;
+    margin: auto;
+}
+.box-2 h3{
+    text-align: center;
+    font-size:40px;
+    font-style:italic;
+    text-decoration:underline;
+    text-transform: uppercase; 
+}
+.categories{
+    background-color: whitesmoke;
+    width: 80%;
+    border: 5px black solid;
+    padding: 20px;
+    margin: auto;
+}
+
+.categories h2{
+    color: blue;
+    text-align: center;
+    font-size:40px;
+    font-style:italic;
+}
+
+.categories ul{
+    list-style: none;
+    color: blue;
+
+}
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    color: brown;
+}
+a:active{
+    color: gold;
+}
+a:visited{
+    color: yellow;
+}
+.categories li{
+    padding-bottom: 8px;
+    border-bottom: dotted 1px blue;
+}
+.my-form{
+    padding: 20px;
+}
+.my-form .group-form{
+    padding-bottom: 15px;
+}
+.my-form label{
+   display: block;
+}
+.my-form input[type="text"] .my-form textarea{
+    padding: 8px;
+    width: 100%;
+}
+.block{
+    color: black;
+    float: left;
+    width: 33.3%;
+    border: 1px solid #ccc;
+    padding:10px;
+    box-sizing: border-box;
+}
+#main-block{
+    float: left;
+    width: 70%;
+}
+#sidebar{
+    float: right;
+    width: 30%;
+    background-color: black;
+    color: #ccc;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.p-box h1{
+    text-align: left;
+    top: 100px;
+    left: 200px;
+    position: absolute;
+}
+.p-box{
+    width: 579px;
+    height: 448px;
+    border: 1px solid #000;
+    margin-top: 30px;
+    position: relative;
+    background-image: url(../images/Capture\ 5.PNG);
+    background-repeat: no-repeat;
+    background-position: 100px 200px;
+    background-position: center top;
+    
+}
+.p-box h2{
+    bottom: 40px;
+    right: 100px;
+    position: absolute;
+}
+.fix-me{
+    position: fixed;
+    top: 400px;
+}
+.my-list li:first-child{
+    background: green;
+}
+.my-list li:last-child{
+    background: red;
+}
+.my-list li:nth-last-child(even){
+    background: yellow;
+}
+.my-list li:nth-last-child(odd){
+    background: black;
+}
