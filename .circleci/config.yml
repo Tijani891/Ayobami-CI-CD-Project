@@ -1,6 +1,23 @@
 version: 2.1
 
 jobs:
+  linting_process:
+    docker:
+      - image: node:14
+    steps:
+      - checkout
+      - run:
+          name: Install linting tools
+          command: npm install -g htmlhint stylelint eslint
+
+      - run:
+          name: Lint HTML
+          command: htmlhint project_folder/**/*.html
+
+      - run:
+          name: Lint CSS
+          command: stylelint project_folder/**/*.css
+
   # build_and_deploy_image:
   #   docker:
   #     - image: docker:latest
@@ -23,53 +40,75 @@ jobs:
   #         command: |
   #           docker push tijani119/acme-web-app:3.0
 
-  deploy_to_eks_cluster:
-    docker:
-      - image: ubuntu:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
+  # deploy_to_eks_cluster:
+  #   docker:
+  #     - image: ubuntu:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: false
 
-      - run:
-          name: Install AWS CLI
-          command: |
-            apt-get update -y
-            apt-get install -y python3-pip
-            pip3 install --upgrade pip
-            pip3 install awscli
+  #     - run:
+  #         name: Install AWS CLI
+  #         command: |
+  #           apt-get update -y
+  #           apt-get install -y python3-pip
+  #           pip3 install --upgrade pip
+  #           pip3 install awscli
 
-      - run:
-          name: Verify AWS CLI Installation
-          command: aws --version
+  #     - run:
+  #         name: Verify AWS CLI Installation
+  #         command: aws --version
 
-      - run:
-          name: Install curl
-          command: |
-            apt-get update -y
-            apt upgrade -y
-            apt install curl -y
-            curl --version
+  #     - run:
+  #         name: Install curl
+  #         command: |
+  #           apt-get update -y
+  #           apt upgrade -y
+  #           apt install curl -y
+  #           curl --version
 
-      - run:
-          name: Install kubectl
-          command: |
-            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            chmod +x ./kubectl
-            mv ./kubectl /usr/local/bin/kubectl
+  #     - run:
+  #         name: Install kubectl
+  #         command: |
+  #           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  #           chmod +x ./kubectl
+  #           mv ./kubectl /usr/local/bin/kubectl
 
-      - run:
-          name: Configure aws cred
-          command: |
-            aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
+  #     - run:
+  #         name: Configure aws cred
+  #         command: |
+  #           aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
 
-      - run:
-          name: Deploy to AWS EKS
-          command: |
-            cd k8s-files
-            kubectl apply -f .
+  #     - run:
+  #         name: Initial Deployment K8s
+  #         command: |
+  #           cd k8-files
+  #           kubectl apply -f .
+  #           kubectl rollout status deployment/nginx-app
+
+  #     - run:
+  #         name: Wait for 5 minutes
+  #         command: |
+  #           echo "Waiting for 5 minutes..."
+  #           sleep: 300
+
+  #     - run:
+  #         name: Rolling Update K8s Deployment
+  #         command: |
+  #           cd k8-files
+  #           # Update the image in the deployment
+  #           kubectl set image deployment/nginx-app tijani119=tijani119/acme-web-app:latest
+  #           kubectl rollout status deployment/nginx-app
 
 workflows:
   project_workflow:
     jobs:
-      - deploy_to_eks_cluster
+      - linting_process
+      # - build_and_deploy_image:
+      #     requires:
+      #       - linting_process
+      # - deploy_to_eks_cluster:
+      #     requires:
+      #       - linting_process
+      #       - build_and_deploy_image
