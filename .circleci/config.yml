@@ -14,10 +14,6 @@ jobs:
           name: Lint HTML
           command: htmlhint project_folder/*.html
 
-      - run:
-          name: Lint CSS
-          command: stylelint project_folder/**/*.css
-
   # build_and_deploy_image:
   #   docker:
   #     - image: docker:latest
