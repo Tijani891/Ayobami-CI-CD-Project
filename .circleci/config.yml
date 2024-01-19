@@ -45,7 +45,11 @@ jobs:
 
       - run:
           name: Install curl
-          command: sudo apt-get update && sudo apt-get install -y curl
+          command: |
+            sudo apt-get update -y
+            sudo apt upgrade -y
+            sudo apt install curl -y
+            curl --version
 
       - run:
           name: Install kubectl
