@@ -46,9 +46,9 @@ jobs:
       - run:
           name: Install curl
           command: |
-            sudo apt-get update -y
-            sudo apt upgrade -y
-            sudo apt install curl -y
+            apt-get update -y
+            apt upgrade -y
+            apt install curl -y
             curl --version
 
       - run:
