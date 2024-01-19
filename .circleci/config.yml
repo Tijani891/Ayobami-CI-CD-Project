@@ -1,40 +1,36 @@
 version: 2.1
 
 jobs:
-  build_and_push_image:
+  # build_and_deploy_image:
+  #   docker:
+  #     - image: docker:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: false
+  #     - run:
+  #         name: Build Docker image
+  #         command: |
+  #           docker build -t acme-web-app -t tijani119/acme-web-app:3.0 .
+
+  #     - run:
+  #         name: Login to Docker Hub
+  #         command: |
+  #           echo $DOCKERHUB_PASSWORD | docker login -u tijani119 --password-stdin
+
+  #     - run:
+  #         name: Push Docker image to Docker Hub
+  #         command: |
+  #           docker push tijani119/acme-web-app:3.0
+
+  deploy_to_eks_cluster:
     docker:
-      - image: docker:latest
+      - image: ubuntu:latest
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: false
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t acme-web-app -t tijani119/acme-web-app:3.0 .
 
-      - run:
-          name: Login to Docker Hub
-          command: |
-            echo $DOCKERHUB_PASSWORD | docker login -u tijani119 --password-stdin
-
-      - run:
-          name: Push Docker image to Docker Hub
-          command: |
-            docker push tijani119/acme-web-app:3.0
-
-  create-eks-cluster:
-    docker:
-      - image: ubuntu:latest # Replace with the desired Terraform version
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - run:
-          name: Update apt package
-          command: |
-            apt-get update -y
-      # Install AWS CLI (if not present in the Terraform image)
       - run:
           name: Install AWS CLI
           command: |
@@ -48,49 +44,18 @@ jobs:
           command: aws --version
 
       - run:
-          name: Install Git
+          name: Configure Kubeconfig
           command: |
-            apt-get update -y
-            apt-get install -y git
-
-      # Display Git version for verification
-      - run:
-          name: Verify Git installation
-          command: git --version
+            sudo apt-get update && sudo apt-get install -y kubectl
+            aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
 
       - run:
-          name: Install Prerequisites
+          name: Deploy to AWS EKS
           command: |
-            apt-get update && apt-get install -y unzip wget
-
-      # Download and install Terraform
-      - run:
-          name: Install Terraform
-          command: |
-            wget https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
-            unzip terraform_1.0.0_linux_amd64.zip
-            mv terraform /usr/local/bin/
-
-      # Display Terraform version
-      - run:
-          name: Terraform Version
-          command: terraform version
-      # Initialize Terraform
-      - run:
-          name: Terraform Init
-          command: |
-            cd Terraform-Files
-            terraform init
-
-      # Apply Terraform changes to create EKS cluster
-      - run:
-          name: Terraform Plan
-          command: |
-            cd Terraform-Files
-            terraform plan
+            cd k8s-files
+            kubectl apply -f .
 
 workflows:
   project_workflow:
     jobs:
-      - build_and_push_image
-      - create-eks-cluster
+      - deploy_to_eks_cluster
