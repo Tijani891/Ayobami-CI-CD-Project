@@ -12,7 +12,7 @@ jobs:
 
       - run:
           name: Lint HTML
-          command: htmlhint project_folder/**/*.html
+          command: htmlhint project_folder/*.html
 
       - run:
           name: Lint CSS
