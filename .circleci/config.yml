@@ -81,7 +81,7 @@ jobs:
       - run:
           name: Initial Deployment K8s
           command: |
-            cd k8-files
+            cd k8s-files
             kubectl apply -f .
             kubectl rollout status deployment/nginx-app
 
