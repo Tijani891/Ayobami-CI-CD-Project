@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-app
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: nginx-app
@@ -20,3 +21,5 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 80
+
+
