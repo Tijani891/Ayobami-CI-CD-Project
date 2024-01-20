@@ -94,7 +94,7 @@ jobs:
       - run:
           name: Rolling Update K8s Deployment
           command: |
-            cd k8-files
+            cd k8s-files
             # Update the image in the deployment
             kubectl set image deployment/nginx-app tijani119=tijani119/acme-web-app:latest
             kubectl rollout status deployment/nginx-app
