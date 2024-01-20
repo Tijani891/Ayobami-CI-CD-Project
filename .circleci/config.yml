@@ -97,7 +97,8 @@ jobs:
             cd k8s-files
             # Update the image in the deployment
             kubectl set image deployment/nginx-app tijani119=tijani119/acme-web-app:latest
-            kubectl rollout status deployment/nginx-app
+            kubectl rollout status deployment/nginx-app --timeout=15m
+
 
 workflows:
   project_workflow:
