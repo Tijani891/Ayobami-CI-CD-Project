@@ -83,13 +83,7 @@ jobs:
           command: |
             cd k8s-files
             kubectl apply -f .
-            kubectl rollout status deployment/nginx-app
 
-      - run:
-          name: Wait for 5 minutes
-          command: |
-            echo "Waiting for 5 minutes..."
-            sleep 300
 
       - run:
           name: Rolling Update K8s Deployment
