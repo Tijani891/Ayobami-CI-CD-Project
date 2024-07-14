@@ -44,17 +44,7 @@ This project demonstrates a CI/CD pipeline for a microservices application using
 2. **Security Scanning**: Checks for vulnerabilities.
 3. **Docker Build**: Builds Docker images for microservices.
 4. **Push to Repository**: Pushes Docker images to AWS ECR.
-5. **Kubernetes Deployment**: Deploys Docker images to the Kubernetes cluster using blue/green or rolling updates.
-
-### Screenshots
-
-#### CircleCI Pipeline
-
-![CircleCI Pipeline](path/to/circleci-pipeline-image.png)
-
-#### Kubernetes Deployment
-
-![Kubernetes Deployment](path/to/kubernetes-deployment-image.png)
+5. **Kubernetes Deployment**: Deploys Docker images to the Kubernetes cluster using blue/green or rolling updates
 
 ## Contributing
 
